@@ -1,0 +1,15 @@
+\subsection{31-08-2016}
+\subsubsection{Frequency Domain - Fourier Analysis contd.}
+Review Quiz solutions\\
+\begin{itemize}
+	\item 1 - D
+	\item 2 - B
+	\item 3 - A
+	\item 4 - E (lot of horizontal edges as per the fourier image - mostly because of the waves)
+	\item 5 - C
+\end{itemize}
+\paragraph {Novak image deconvolution example} - filter is already perfectly known and double precision is used, so the fft values aren't 0 at the higher frequencies but very very low value (if you used single precision or discrete values, they would be 0 - making it difficult to invert).\\
+As you add even slight noise, the deconvoluted image starts getting worse!
+
+\subsubsection{Sampling}
+\paragraph{Aliasing} A better way to down-sample is to apply a low-pass filter first on the image. This removes the high frequencies. Thus we need a lower sampling frequency to reconstruct this image (Nyuqist-Shannon theorem). 

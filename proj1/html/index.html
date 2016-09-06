@@ -1,0 +1,249 @@
+<html>
+<head>
+<title>Computer Vision Project</title>
+<link href='http://fonts.googleapis.com/css?family=Nunito:300|Crimson+Text|Droid+Sans+Mono' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" title="Default" href="styles/github.css">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>  
+
+<link rel="stylesheet" href="highlighting/styles/default.css">
+<script src="highlighting/highlight.pack.js"></script>
+
+<style type="text/css">
+body {
+	margin: 0px;
+	width: 100%;
+	font-family: 'Crimson Text', serif;
+	font-size: 20px;
+	background: #fcfcfc;
+}
+h1 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: normal;
+	font-size: 28px;
+	margin: 25px 0px 0px 0px;
+	text-transform: lowercase;
+
+}
+
+h2 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: normal;
+	font-size: 32px;
+	margin: 15px 0px 35px 0px;
+	color: #333;	
+	word-spacing: 3px;
+}
+
+h3 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: normal;
+	font-size: 26px;
+	margin: 10px 0px 10px 0px;
+	color: #333;
+	word-spacing: 2px;
+}
+h4 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: normal;
+	font-size: 22px;
+	margin: 10px 0px 10px 0px;
+	color: #333;
+	word-spacing: 2px;
+}
+
+h5 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: normal;
+	font-size: 18px;
+	margin: 10px 0px 10px 0px;
+	color: #111;
+	word-spacing: 2px;
+}
+
+p, li {
+	color: #444;
+}
+
+a {
+	color: #DE3737;
+}
+
+.container {
+	margin: 0px auto 0px auto;
+	width: 960px;
+}
+
+#header {
+	background: #333;
+	width: 100%;
+}
+
+#headersub {
+	color: #ccc;
+	width: 960px;
+	margin: 0px auto 0px auto;
+	padding: 20px 0px 20px 0px;
+}
+
+.chart {
+	width: 480px;
+}
+.lol {
+	font-size: 16px;
+	color: #888;
+	font-style: italic;
+}
+.sep {
+	height: 1px;
+	width: 100%;
+	background: #999;
+	margin: 20px 0px 20px 0px;
+}
+.footer{
+	font-size: 16px;
+}
+.latex {
+	width: 100%;
+}
+
+.latex img {
+	display: block;
+	margin: 0px auto 0px auto;
+}
+
+pre {
+	font-family: 'Droid Sans Mono';
+	font-size: 14px;
+}
+
+td img {
+  vertical-align: middle;
+}
+
+#contents a {
+}
+</style>
+<script type="text/javascript">
+    hljs.initHighlightingOnLoad();
+</script>
+</head>
+<body>
+<div id="header" >
+<div id="headersub">
+<h1><span style="color: #DE3737">M S Suraj</span></h1>
+</div>
+</div>
+<div class="container">
+
+<h2>Project 1: Image Filtering and Hybrid Images</h2>
+
+<h3>Filter implementation and testing</h3>
+
+<!-- <div style="float: right; padding: 20px">
+<img src="placeholder.jpg" />
+<p style="font-size: 14px">Example of a right floating element.</p>
+</div>
+ -->
+<p>The filtering operation is pretty straightforward to implement. We perform the following steps - </p>
+<ul>
+	<li>Check dimension of input filter - as per guidelines, they should be odd-integered</li>
+	<li>Pad the image - the best results for the test inputs seem to be obtained by reflecting the image at the edges while padding<br/>
+	Matlab provides a <strong><em>paddarray()</em></strong> routine which does this. However, we implemented a symmetric padding routine of our own in <strong><em>my_padarray.m</em></strong>
+	</li>
+	<li>Loop through each pixel in the input image and perform "convolution"</li>
+</ul>
+
+<pre><code>
+filter_size = size(filter);
+
+% perform checks on input size
+if (isequal(mod(filter_size,2), [1 1]))
+    % input filter has odd integer dimensions, so continue with filtering
+    image_size = size(image);
+    pad_size = (filter_size - 1) / 2;
+    % pad the input image as per filter size
+    %padded_image = padarray(image, pad_size, 'symmetric');
+    padded_image = my_padarray(image, pad_size, 'symmetric');
+    
+    % initialize output
+    output = zeros(image_size);
+    % perform convolution
+    for i=1:image_size(1)
+        for j=1:image_size(2)
+            % looping through each pixel
+            for k=1:filter_size(1)
+                for l=1:filter_size(2)
+                    for c=1:image_size(3)
+                        output(i, j, c) = output(i, j, c) + padded_image(i+k-1, j+l-1, c) .* filter(k, l);
+                    end
+                end
+            end
+        end
+    end
+else
+    % input filter has at least one even integer dimension, terminate filtering
+    error('Input filter has invalid dimensions!');
+end
+</code></pre>
+
+<p>For testing, we compare the results of our implemented filter routine with Matlab's built-in routine. Here are some qualitative comparisons:</p>
+
+<table border=1>
+	<tr>
+		<th>Filter used</th>
+		<th>my_imfilter</th>
+		<th>imfilter [built-in]</th>
+	</tr>
+	<tr>
+		<td>Identity filter</td>
+		<td>
+			<img src="img/identity_image.jpg"/>
+		</td>
+		<td>
+			<img src="img/identity_image_matlab.jpg"/>
+		</td>
+	</tr>
+	<tr>
+		<td>Box filter (small blur)</td>
+		<td>
+			<img src="img/blur_image.jpg"/>
+		</td>
+		<td>
+			<img src="img/blur_image_matlab.jpg"/>
+		</td>
+	</tr>
+</table>
+<br/>
+<h3>Hybrid image generation</h3>
+<p>To construct hybrid images, we remove high-frequencies from one image by applying a low-pass filter operation on it and vice-versa on the other image. The hybrid image is constructed by simple addition of both filtered images. However, it is important that the images be aligned and of same resolution to get a satisfactory result.<br/>
+This requires some trial and error on figuring out the suitable cutoff frequency for a given pair of images.
+</p>
+<p>Here are some resultant hybrid images:</p>
+
+<h4>Result 1 - Cat and Dog</h4>
+<pre>Gaussian blur with standard deviation = 7 pixels (cutoff frequency)</pre>
+<table border=1>
+	<tr>
+		<th>Low frequency</th>
+		<th>High frequency</th>
+		<th>Hybrid</th>
+	</tr>
+	<tr>
+		<td>
+			<img src="img/low_frequencies.jpg"/>
+		</td>
+		<td>
+			<img src="img/high_frequencies.jpg"/>
+		</td>
+		<td>
+			<img src="img/hybrid_image.jpg"/>
+		</td>
+	</tr>
+</table>
+<img src="img/hybrid_image_scales.jpg"/>
+
+
+
+</div>
+</body>
+</html>

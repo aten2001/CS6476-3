@@ -1,2 +1,2 @@
 # cs6476
-Computer vision class
+Computer vision class material
