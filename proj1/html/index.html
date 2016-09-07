@@ -150,7 +150,7 @@ td img {
 	<li>Pad the image - the best results for the test inputs seem to be obtained by reflecting the image at the edges while padding<br/>
 	Matlab provides a <strong><em>paddarray()</em></strong> routine which does this. However, we implemented a symmetric padding routine of our own in <strong><em>my_padarray.m</em></strong>
 	</li>
-	<li>Loop through each pixel in the input image and perform "convolution"</li>
+	<li>For each channel, we loop through each pixel in the input image and compute element-wise product(Hadamard product) of the filter matrix and the 2D matrix centered around the input image pixel of the same dimensions as the filter.</li>
 </ul>
 
 <pre><code>
@@ -160,6 +160,10 @@ filter_size = size(filter);
 if (isequal(mod(filter_size,2), [1 1]))
     % input filter has odd integer dimensions, so continue with filtering
     image_size = size(image);
+    if size(image_size)== [1 2];
+        % grayscale image
+        image_size = [image_size 1];
+    end
     pad_size = (filter_size - 1) / 2;
     % pad the input image as per filter size
     %padded_image = padarray(image, pad_size, 'symmetric');
@@ -210,6 +214,24 @@ end
 		</td>
 		<td>
 			<img src="img/blur_image_matlab.jpg"/>
+		</td>
+	</tr>
+	<tr>
+		<td>Gaussian filter (large blur, grayscale)</td>
+		<td>
+			<img src="img/large_blur_image_grayscale.jpg"/>
+		</td>
+		<td>
+			<img src="img/large_blur_image_grayscale_matlab.jpg"/>
+		</td>
+	</tr>
+	<tr>
+		<td>Sobel filter (grayscale)</td>
+		<td>
+			<img src="img/sobel_image_grayscale.jpg"/>
+		</td>
+		<td>
+			<img src="img/sobel_image_grayscale_matlab.jpg"/>
 		</td>
 	</tr>
 </table>

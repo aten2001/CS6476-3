@@ -11,7 +11,7 @@ close all; % closes all figures
 %% Setup
 
 image_pairs = {{'dog' 'cat' 7} {'marilyn' 'einstein' 5} {'bird' 'plane' 7}};
-input_index = 2;
+input_index = 3;
 
 input_params = image_pairs{input_index};
 image1file = input_params{1};

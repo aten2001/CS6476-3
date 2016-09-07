@@ -52,7 +52,7 @@ imwrite(large_blur_image, 'large_blur_image.jpg', 'quality', 95);
 %% Oriented filter (Sobel Operator)
 sobel_filter = [-1 0 1; -2 0 2; -1 0 1]; %should respond to horizontal gradients
 
-sobel_image = my_imfilter(test_image, sobel_filter);
+sobel_image = imfilter(test_image, sobel_filter);
 
 %0.5 added because the output image is centered around zero otherwise and mostly black
 figure(5); imshow(sobel_image + 0.5);

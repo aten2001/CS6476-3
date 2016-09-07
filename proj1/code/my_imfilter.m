@@ -39,6 +39,10 @@ filter_size = size(filter);
 if (isequal(mod(filter_size,2), [1 1]))
     % input filter has odd integer dimensions, so continue with filtering
     image_size = size(image);
+    if size(image_size)== [1 2];
+        % grayscale image
+        image_size = [image_size 1];
+    end
     pad_size = (filter_size - 1) / 2;
     % pad the input image as per filter size
     %padded_image = padarray(image, pad_size, 'symmetric');

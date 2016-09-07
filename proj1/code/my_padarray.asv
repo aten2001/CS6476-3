@@ -3,9 +3,8 @@ function padded_image = my_padarray(image, pad_size, pad_type)
 % but at the moment only supports symmetric image padding and 2D padding sizes.
 
     image_size = size(image);
-    if size(image_size)== [1 2];
+    if size(image_size)==2
         % grayscale image
-        image_size = [image_size 1];
     end
     padded_image_size = image_size + [2*pad_size 0];
     padded_image = zeros(padded_image_size);
