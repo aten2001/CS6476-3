@@ -236,6 +236,7 @@ end
 	</tr>
 </table>
 <br/>
+
 <h3>Hybrid image generation</h3>
 <p>To construct hybrid images, we remove high-frequencies from one image by applying a low-pass filter operation on it and vice-versa on the other image. The hybrid image is constructed by simple addition of both filtered images. However, it is important that the images be aligned and of same resolution to get a satisfactory result.<br/>
 This requires some trial and error on figuring out the suitable cutoff frequency for a given pair of images.
@@ -328,7 +329,30 @@ hybrid_image = low_frequencies + high_frequencies;
 	</tr>
 </table>
 <img src="img/plane_bird_hybrid_image_scales.jpg"/>
-
+<br/>
+<h3> Bonus hybrid image </h3>
+<h4>Result 4 - Matt Damon and Mark Wahlberg</h4>
+<pre>Gaussian blur with standard deviation = 5 pixels (cutoff frequency)</pre>
+<table border=1>
+	<tr>
+		<th>Low frequency</th>
+		<th>High frequency</th>
+		<th>Hybrid</th>
+	</tr>
+	<tr>
+		<td>
+			<img src="img/matt_low_frequencies.jpg"/>
+		</td>
+		<td>
+			<img src="img/mark_high_frequencies.jpg"/>
+		</td>
+		<td>
+			<img src="img/matt_mark_hybrid_image.jpg"/>
+		</td>
+	</tr>
+</table>
+<img src="img/matt_mark_hybrid_image_scales.jpg"/>
+<p>Image courtesy - <a href="http://www.sensacine.com/noticias/cine/noticia-18535723/">http://www.sensacine.com/noticias/cine/noticia-18535723/</a></p>
 
 </div>
 </body>
