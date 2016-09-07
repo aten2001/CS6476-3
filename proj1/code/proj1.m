@@ -9,9 +9,17 @@
 close all; % closes all figures
 
 %% Setup
+
+image_pairs = {{'dog' 'cat' 7} {'marilyn' 'einstein' 5} {'bird' 'plane' 7}};
+input_index = 2;
+
+input_params = image_pairs{input_index};
+image1file = input_params{1};
+image2file = input_params{2};
+cutoff = input_params{3};
 % read images and convert to floating point format
-image1 = im2single(imread('../data/dog.bmp'));
-image2 = im2single(imread('../data/cat.bmp'));
+image1 = im2single(imread(['../data/' image1file '.bmp']));
+image2 = im2single(imread(['../data/' image2file '.bmp']));
 
 % Several additional test cases are provided for you, but feel free to make
 % your own (you'll need to align the images in a photo editor such as
@@ -20,7 +28,7 @@ image2 = im2single(imread('../data/cat.bmp'));
 % you asign as image2 (which will provide the high frequencies)
 
 %% Filtering and Hybrid Image construction
-cutoff_frequency = 7; %This is the standard deviation, in pixels, of the 
+cutoff_frequency = cutoff; %This is the standard deviation, in pixels, of the 
 % Gaussian blur that will remove the high frequencies from one image and 
 % remove the low frequencies from another image (by subtracting a blurred
 % version from the original version). You will want to tune this for every
@@ -59,7 +67,7 @@ figure(1); imshow(low_frequencies)
 figure(2); imshow(high_frequencies + 0.5);
 vis = vis_hybrid_image(hybrid_image);
 figure(3); imshow(vis);
-imwrite(low_frequencies, 'low_frequencies.jpg', 'quality', 95);
-imwrite(high_frequencies + 0.5, 'high_frequencies.jpg', 'quality', 95);
-imwrite(hybrid_image, 'hybrid_image.jpg', 'quality', 95);
-imwrite(vis, 'hybrid_image_scales.jpg', 'quality', 95);
+imwrite(low_frequencies, [image1file '_low_frequencies.jpg'], 'quality', 95);
+imwrite(high_frequencies + 0.5, [image2file '_high_frequencies.jpg'], 'quality', 95);
+imwrite(hybrid_image, [image1file '_' image2file '_hybrid_image.jpg'], 'quality', 95);
+imwrite(vis, [image1file '_' image2file '_hybrid_image_scales.jpg'], 'quality', 95);
