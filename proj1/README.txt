@@ -1,0 +1,1 @@
+Change the input_index parameter in proj1.m file to switch between different hybrid image comnibinations.

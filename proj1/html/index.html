@@ -240,6 +240,27 @@ end
 <p>To construct hybrid images, we remove high-frequencies from one image by applying a low-pass filter operation on it and vice-versa on the other image. The hybrid image is constructed by simple addition of both filtered images. However, it is important that the images be aligned and of same resolution to get a satisfactory result.<br/>
 This requires some trial and error on figuring out the suitable cutoff frequency for a given pair of images.
 </p>
+
+<pre>
+	<code>
+low_frequencies = my_imfilter(image1, filter);
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Remove the low frequencies from image2 by subtracting a blurred version of image2 from the original version of image2.
+% This will give you an image centered at zero with negative values.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+blurred = my_imfilter(image2,filter);
+high_frequencies = image2-blurred;
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Combine the high frequencies and low frequencies
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+hybrid_image = low_frequencies + high_frequencies;
+	</code>
+</pre>
+
 <p>Here are some resultant hybrid images:</p>
 
 <h4>Result 1 - Dog and Cat</h4>
