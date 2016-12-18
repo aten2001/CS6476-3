@@ -3,13 +3,11 @@
  Express any function as a sum of sines.\\
  $A \sin{(\omega\x + \phi)}$ ; $\omega$ = frequency, $\phi$ = phase shift, $A$ = amplitude, $x$ = 1-D axis\\
  Varying $\omega$, $\phi$ and $A$ and combining them lets us recreate any 1-D function.
- 
- \paragraph{Fourier analysis in images}
- Fourier image - 2D Fourier analysis of image. The center is the lowest energy part. As we move away, the frequency becomes higher. The intensity of the pixel in fourier image gives the amplitude of that particular frequency.\\
+\paragraph{Fourier analysis in images}
+Fourier image - 2D Fourier analysis of image. The center is the lowest energy part.As we move away, the frequency becomes higher. The intensity of the pixel in Fourier image gives the amplitude of that particular frequency.\\
 Using complex numbers, amplitude and phase both can be stored as a single complex number.\\
-
 Fourier bases - combination of these results in final image. Each image represents a different frequency channel.. The farther away ones have higher frequency along the axis you move. You use two images per base to store the complex and real part (used to recover the phase information from it later). The final fourier image essentially stores the amplitude of each of the fourier bases as intensities in each pixel.\\
-Generally, natural images have lot of low frequencies since sharp edges are less compared to smooth shapes in natural world. Also, we tend to get more amplitudes along the horizontal and vertical axis in fourier image because the natural scenes have buildings, trees, etc which are perpendicular to ground (gravity FTW!) and other edges tend to be horizontal in natural scenes.\\
+Generally, natural images have lot of low frequencies since sharp edges are less compared to smooth shapes in natural world. Also, we tend to get more amplitudes along the horizontal and vertical axis in fourier image because the natural scenes have buildings, trees, etc which are perpendicular to ground (gravity FTW!) and other edges tend to be horizontal in natural scenes.
 \begin{itemize}
 \item Low-pass filtering - Blurred out (or smoothed) image as sharp edges are smoothed out.
 \item High-pass filtering - we tend to get the sharp edges as they have the high frequency content.

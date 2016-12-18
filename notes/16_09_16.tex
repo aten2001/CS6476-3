@@ -1,0 +1,13 @@
+\subsection{16-09-2016}
+\subsubsection{Fitting and Alignment Methods}
+Hough Transform and RANSAC are the more commonly used ones.
+\paragraph{Hough Transform} Pros, cons, common applications - review of previous lecture.
+\paragraph{RANSAC}
+\begin{enumerate}
+	\item Sample a randome number of points - usually the minimum number of points required to fit the model.
+	\item Solve for the model using the samples.
+	\item Score the model by computing how many points in the data agree with the model (ie, how many inliers).
+	\item Repeat 1-3 until best model within a confidence is found	
+\end{enumerate}
+
+\paragraph{Alignment} Find a global set of parameters that would let you apply a transformation on an image (ie, a global parametric transformation) and transform it into another image. NOTE: Global here refers to that the parameter is independent of the point.

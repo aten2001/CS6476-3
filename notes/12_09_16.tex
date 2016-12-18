@@ -1,0 +1,21 @@
+\subsection{12-09-2016}
+\subsubsection{Harris Detector}
+\begin{itemize}
+	\item Second moment matrix
+	\item Cornerness function - tuning $\alpha$ tunes the cornerness of the edges
+\end{itemize}
+Orientation normalization
+
+\subsubsection{Local features}
+\paragraph{How do we describe the image around the keypoints?}
+\begin{itemize}
+	\item Templates - use image patches as features directly
+	\item Histogram - represent distribution of features, color intensity, texture, ...
+	\item SIFT features - It takes a histogram of gradients in each 4x4 cell of the image gradient matrix(16x16) - keypoint descriptor
+	\item SURF descriptor (variation on SIFT): Instead of 4x4 binning, use a log-polar binning.
+	\item Self-similarity descriptor
+\end{itemize}
+
+\paragraph{Reducing the effect of illumination}
+128 vectors normalized to 1. 128 = (4x4) bin matrix and each bin(or cell) has 8 directions to describe the histogram of gradients.
+\paragraph{Nearest neighbor distance ratio} helps you determine the confidence of the similarity distance. If there is a large difference between the closest match and the next closest match, it's more confident.

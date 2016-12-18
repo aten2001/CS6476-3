@@ -1,0 +1,24 @@
+\subsection{07-09-2016}
+\subsubsection{Discrete Cosine Transform}
+Useful in image compression.
+\paragraph{JPEG image compression}
+Block wise compression after converting to different color space.
+
+\subsubsection{Edge Detection}
+Edges are essentially rapid changes in the image function. Taking the derivative helps identify them. However, images have noise which hinders the derivative technique for edge detection (since the noise essentially creates very very small but rapid changes in image function throughout the image).
+\paragraph{Solution}
+Smooth the image before taking derivative. Ex., apply a Gaussian filter and then take derivative.
+However smoothing also tends to blur edges. Hence, if the blur is too high, edge detection may fail.
+\paragraph{Canny Edge Detection}
+\begin{itemize}
+	\item Generally, we get fat edges since when we use simple derivative edge detection
+	\item Get orientation of the gradient at each pixel
+	\item Using non-maximum supression for each orientation, we can refine it well to get the true edges\\
+	Essentially, at each pixel we check if there is a higher gradient value in the neighborhood of the pixel within the direction of its gradient - if such higher gradient exists, it means that that gradient is more likely to be the true edge and the lower gradient pixel is probably inside the edge
+	\item Now even though we have thinner edge (due to non-max suppression), we still have the problem of choosing a proper threshold. To solve this, CED uses hysteresis thresholding:
+	\begin{itemize}
+		\item Use two thresholds - one high and one low
+		\item Everything above high is an edge(strong edge) and everything below low isn't
+		\item If it is between low and high, check if it is connected to strong edges on both ends (use connected edges for this) - if it is, then it is an edge
+	\end{itemize}
+\end{itemize}

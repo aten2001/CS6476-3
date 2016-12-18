@@ -1,0 +1,279 @@
+<html>
+<head>
+<title>Computer Vision Project</title>
+<link href='http://fonts.googleapis.com/css?family=Nunito:300|Crimson+Text|Droid+Sans+Mono' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" title="Default" href="styles/github.css">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>  
+
+<link rel="stylesheet" href="highlighting/styles/default.css">
+<script src="highlighting/highlight.pack.js"></script>
+
+<style type="text/css">
+body {
+	margin: 0px;
+	width: 100%;
+	font-family: 'Crimson Text', serif;
+	font-size: 20px;
+	background: #fcfcfc;
+}
+h1 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: normal;
+	font-size: 28px;
+	margin: 25px 0px 0px 0px;
+	text-transform: lowercase;
+
+}
+
+h2 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: normal;
+	font-size: 32px;
+	margin: 15px 0px 35px 0px;
+	color: #333;	
+	word-spacing: 3px;
+}
+
+h3 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: normal;
+	font-size: 26px;
+	margin: 10px 0px 10px 0px;
+	color: #333;
+	word-spacing: 2px;
+}
+h4 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: normal;
+	font-size: 22px;
+	margin: 10px 0px 10px 0px;
+	color: #333;
+	word-spacing: 2px;
+}
+
+h5 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: normal;
+	font-size: 18px;
+	margin: 10px 0px 10px 0px;
+	color: #111;
+	word-spacing: 2px;
+}
+
+p, li {
+	color: #444;
+}
+
+a {
+	color: #DE3737;
+}
+
+.container {
+	margin: 0px auto 0px auto;
+	width: 1160px;
+}
+
+#header {
+	background: #333;
+	width: 100%;
+}
+
+#headersub {
+	color: #ccc;
+	width: 960px;
+	margin: 0px auto 0px auto;
+	padding: 20px 0px 20px 0px;
+}
+
+.chart {
+	width: 480px;
+}
+.lol {
+	font-size: 16px;
+	color: #888;
+	font-style: italic;
+}
+.sep {
+	height: 1px;
+	width: 100%;
+	background: #999;
+	margin: 20px 0px 20px 0px;
+}
+.footer{
+	font-size: 16px;
+}
+.latex {
+	width: 100%;
+}
+
+.latex img {
+	display: block;
+	margin: 0px auto 0px auto;
+}
+
+pre {
+	font-family: 'Droid Sans Mono';
+	font-size: 14px;
+}
+
+table td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+table td img {
+  text-align: center;
+  vertical-align: middle;
+}
+
+#contents a {
+}
+</style>
+<script type="text/javascript">
+    hljs.initHighlightingOnLoad();
+</script>
+<script type="text/javascript" async
+      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML">
+    </script>
+</head>
+<body>
+<div id="header" >
+<div id="headersub">
+<h1>M S Suraj</h1>
+</div>
+</div>
+<div class="container">
+
+<h2> Project 3 / Camera Calibration and Fundamental Matrix Estimation with RANSAC</h2>
+
+<h3>Part-1</h3>
+<div id="part_text">
+	For computing the projection matrix M, I solve the follwing equation using SVD.
+	<img width="80%" src="img/projection_matrix_svd2.png"/>
+	<p><em>Image courtesy: Course slides, CS6476</em></p>
+	Once the projection matrix M is obtained, the camera center can be obtained easily as:
+    $$ 
+    M = (Q | m_4 )\\
+    C = -Q^{-1} m_4 $$
+    Here are the results of the projection matrix estimation for the base image pair:
+    <table border="1">
+    	<tr>
+    		<th>Image pair</th>
+    		<th>Projection estimate</th>
+    		<th>Camera center estimate</th>
+    	</tr>
+    	<tr>
+    		<td>Base image pair</td>
+    		<td><img src="img/projection_matrix_test_data.png"></td>
+    		<td><img src="img/camera_center_test_data.png"></td>
+    	</tr>
+    	<tr>
+    		<td>Alternate image pair</td>
+    		<td><img src="img/projection_matrix2.png"></td>
+    		<td><img src="img/camera_center2.png"></td>
+    	</tr>
+    </table>
+</div>
+
+<h3>Part-2</h3>
+<div id="part_text">
+	For estimating the fundamental matrix, I again use SVD for estimating the full rank fundamental matrix. Once that is estimated, I reduce it to a rank 2 fundamental matrix. Here are the results of the epipolar lines on the base image pairs.
+	<table border="1">
+    	<tr>
+    		<td>View-1 image</td>
+    		<td><img src="img/epipolar_left_test_data.png"></td>
+    	</tr>
+    	<tr>
+    		<td>View-2 image</td>
+    		<td><img src="img/epipolar_right_test_data.png"></td>
+    	</tr>
+    </table>
+</div>
+
+<h3>Part-3</h3>
+<div id="part_text">
+	For estimating the fundamental matrix with RANSAC, I found decent results with the Notre Dame pair when the error threshold was around e-7. In addition, in each iteration I sampled 40 random point pairs and estimated the best fundamental matrix from 4000 iterations. Here are the results on the <strong>Mount Rushmore</strong> pair:
+	<table border="1">
+		<tr>
+    		<td>Match points</td>
+    		<td><img width="100%" src="img/mount_rushmore_matches.png"></td>
+    	</tr>
+    	<tr>
+    		<td>View-1 image</td>
+    		<td><img src="img/mount_rushmore_epipolar_left.png"></td>
+    	</tr>
+    	<tr>
+    		<td>View-2 image</td>
+    		<td><img src="img/mount_rushmore_epipolar_right.png"></td>
+    	</tr>
+    </table>
+    As you can see there are:
+    <ol>
+    	<li> Very few incorrect matches from the sift algorithm. (This is negligible)</li>
+    	<li> Some incorrect epipolar lines since the fundamental matrix is not well constrained.</li>
+    </ol>
+</div>
+
+<h3>Part-4 - Graduate Credit & Extra Credit</h3>
+<div id="part_text">
+	To improve the estimate of the fundamental matrix, I normalize the image coordinates before performing RANSAC. To normalize, I use the data set of all the match pairs as opposed to the subset of matches used in each iteration of RANSAC for fundamental matrix estimation. Once the best fundamental matrix in the normalized coordinates is found, I transform the inliers and the fundamental matrix to the original coordinate space. Thus, I have implemented the normalization routine in ransac_fundamental_matrix.m as opposed to the estimate_fundamental_matrix.m (suggested in the course web-page).<br/>
+	For normalizing a set of points from an image, I translate all the points to their mean coordinate and then scale them so that their average squared distance is 2.
+	<table border="1">
+		<tr>
+    		<td>Match points</td>
+    		<td><img width="100%" src="img/mount_rushmore_matches_normalized.png"></td>
+    	</tr>
+    	<tr>
+    		<td>View-1 image</td>
+    		<td><img src="img/mount_rushmore_epipolar_left_normalized.png"></td>
+    	</tr>
+    	<tr>
+    		<td>View-2 image</td>
+    		<td><img src="img/mount_rushmore_epipolar_right_normalized.png"></td>
+    	</tr>
+    </table>
+    As you can see there are:
+    <ol>
+    	<li> There are still some incorrect matches since the SIFT algorithm is unaffected.</li>
+    	<li> The epipolar lines are more accurate than before due to the improvement in estimating the fundamental matrix.</li>
+    </ol>
+
+    Here are some more results with the improved fundamental matrix estimation:
+    <strong>Notre Dame</strong> image pair
+    <table border="1">
+		<tr>
+    		<td>Match points</td>
+    		<td><img width="100%" src="img/notre_dame_matches_normalized.png"></td>
+    	</tr>
+    	<tr>
+    		<td>View-1 image</td>
+    		<td><img src="img/notre_dame_epipolar_left_normalized.png"></td>
+    	</tr>
+    	<tr>
+    		<td>View-2 image</td>
+    		<td><img src="img/notre_dame_epipolar_right_normalized.png"></td>
+    	</tr>
+    </table>
+    <br/>
+    <strong>Gaudi</strong> image pair
+    <table border="1">
+		<tr>
+    		<td>Match points</td>
+    		<td><img width="100%" src="img/gaudi_matches_normalized.png"></td>
+    	</tr>
+    	<tr>
+    		<td>View-1 image</td>
+    		<td><img src="img/gaudi_epipolar_left_normalized.png"></td>
+    	</tr>
+    	<tr>
+    		<td>View-2 image</td>
+    		<td><img src="img/gaudi_epipolar_right_normalized.png"></td>
+    	</tr>
+    </table>
+
+</div>
+
+
+</div>
+</body>
+</html>

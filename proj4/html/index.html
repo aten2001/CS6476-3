@@ -1,0 +1,396 @@
+<html>
+<head>
+<title>Recognition with Bag of Words</title>
+<link href='http://fonts.googleapis.com/css?family=Nunito:300|Crimson+Text|Droid+Sans+Mono' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" title="Default" href="styles/github.css">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>  
+
+<link rel="stylesheet" href="highlighting/styles/default.css">
+<script src="highlighting/highlight.pack.js"></script>
+
+<style type="text/css">
+body {
+	margin: 0px;
+	width: 100%;
+	font-family: 'Crimson Text', serif;
+	font-size: 20px;
+	background: #fcfcfc;
+}
+h1 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: normal;
+	font-size: 28px;
+	margin: 25px 0px 0px 0px;
+	text-transform: lowercase;
+
+}
+
+h2 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: normal;
+	font-size: 32px;
+	margin: 15px 0px 35px 0px;
+	color: #333;	
+	word-spacing: 3px;
+}
+
+h3 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: normal;
+	font-size: 26px;
+	margin: 10px 0px 10px 0px;
+	color: #333;
+	word-spacing: 2px;
+}
+h4 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: normal;
+	font-size: 22px;
+	margin: 10px 0px 10px 0px;
+	color: #333;
+	word-spacing: 2px;
+}
+
+h5 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: normal;
+	font-size: 18px;
+	margin: 10px 0px 10px 0px;
+	color: #111;
+	word-spacing: 2px;
+}
+
+p, li {
+	color: #444;
+}
+
+a {
+	color: #DE3737;
+}
+
+.container {
+	margin: 0px auto 0px auto;
+	width: 1160px;
+}
+
+#header {
+	background: #333;
+	width: 100%;
+}
+
+#headersub {
+	color: #ccc;
+	width: 960px;
+	margin: 0px auto 0px auto;
+	padding: 20px 0px 20px 0px;
+}
+
+.chart {
+	width: 480px;
+}
+.lol {
+	font-size: 16px;
+	color: #888;
+	font-style: italic;
+}
+.sep {
+	height: 1px;
+	width: 100%;
+	background: #999;
+	margin: 20px 0px 20px 0px;
+}
+.footer{
+	font-size: 16px;
+}
+.latex {
+	width: 100%;
+}
+
+.latex img {
+	display: block;
+	margin: 0px auto 0px auto;
+}
+
+pre {
+	font-family: 'Droid Sans Mono';
+	font-size: 14px;
+}
+
+table td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+table td img {
+  text-align: center;
+  vertical-align: middle;
+}
+
+#contents a {
+}
+</style>
+<script type="text/javascript">
+    hljs.initHighlightingOnLoad();
+</script>
+</head>
+<body>
+<div id="header" >
+<div id="headersub">
+<h1>M S Suraj</h1>
+</div>
+</div>
+<div class="container">
+
+<h2>Project 4 / Scene Recognition with Bag of Words</h2>
+
+<h3>1. Tiny images representation with nearest neighbor classifier</h3>
+
+<p> 
+	<ul>
+		<li>As the base simplest system, I implemented tiny images for representation which resizes each image into square images of size 16px-by-16px along with a 1-nearest-neighbor classifier which searches for the nearest neighbor in the tiny-images space using L2 distance metric.</li>
+		<li>I then modified the tiny images representation to include image centering and normalization - essentially, subtract the mean (centers the tiny image to [0, 0, 0]) and divide by the standard deviation (normalize to unit length).</li>
+		<li>The nearest neighbor search was then extended from 1-nearest neighbor to k-nearest-neighbor which picks the most frequent label amongst k-nearest neighbors in the tiny image representation space.</li>
+	</ul>
+</p>
+<p> Here are the prediction accuracies for different combinations:
+	<table border="1">
+		<tr>
+			<th>Representation</th>
+			<th>Classifier</th>
+			<th>Accuracy</th>
+			<th>Results</th>
+		</tr>
+		<tr>
+			<td>Tiny images(naive)</td>
+			<td>1-nearest-neighbor</td>
+			<td>19.4 %</td>
+			<td><a target="_blank" href="results_html/tin_1nn/index.html">Results webpage</a></td>
+		</tr>
+		<tr>
+			<td>Tiny images(naive)</td>
+			<td>5-nearest-neighbor</td>
+			<td>20.6%</td>
+			<td><a target="_blank" href="results_html/tin_5nn/index.html">Results webpage</a></td>
+		</tr>
+		<tr>
+			<td>Tiny images(centered and normalized)</td>
+			<td>1-nearest-neighbor</td>
+			<td>22.4 %</td>
+			<td><a target="_blank" href="results_html/ticn_1nn/index.html">Results webpage</a></td>
+		</tr>
+		<tr>
+			<td>Tiny images(centered and normalized)</td>
+			<td>13-nearest-neighbor</td>
+			<td>23.5 %</td>
+			<td><a target="_blank" href="results_html/ticn_13nn/index.html">Results webpage</a></td>
+		</tr>
+	</table>
+	<h4>Notes:</h4>
+	The best accuracy for KNN search with the <em>naive tiny image</em> representation was obtained for <strong>K=5</strong> at <strong>20.6%</strong>. I ran it for multiple K values and plotted them here.
+	<img width="100%;"src="img/accuracy_vs_knn_tin.png">
+	The best accuracy for KNN search with the <em>centered and normalized tiny image</em> representation was obtained for <strong>K=13</strong> at <strong>23.47%</strong>. Here's the corresponding plot.
+	<img width="100%;"src="img/accuracy_vs_knn_ticn.png">
+</p>
+
+<h3>2. Bag of SIFT representation with nearest neighbor classifier</h3>
+
+<p> For the base system, I implemented a basic bag of SIFT model coupled with the already existing k-nearest-neighbor classifier which searches for the nearest neighbor in the bag of SIFT feature space using L2 distance metric.
+	<ul>
+		<li>For building the vocabulary of words, I sampled 100 SIFT feature vectors (each of size 128) from each training image (total 1500 of them) - thus I ended up with a set of <strong>150,000</strong> feature vectors.</li>
+		<li>I then performed K-means with <strong>K = 200</strong> to obtain the visual dictionary of 200 visual words.</li>
+		<li>I then built the bag of SIFT model using this visual dictionary and classified the test images using the knn classifier. This basic implementation gave an accuracy of <strong>51.0%</strong> - a considerable improvement over the best result with the tiny images model.</li>
+	</ul>
+</p>
+<p> Here are the prediction accuracies for different combinations:
+	<table border="1">
+		<tr>
+			<th>Representation</th>
+			<th>Classifier</th>
+			<th>Accuracy</th>
+			<th>Results</th>
+		</tr>
+		<tr>
+			<td>Bag of SIFT</td>
+			<td>1-nearest-neighbor</td>
+			<td>51.0 %</td>
+			<td><a target="_blank" href="results_html/bos_1nn/index.html">Results webpage</a></td>
+		</tr>
+		<tr>
+			<td>Bag of SIFT</td>
+			<td>7-nearest-neighbor</td>
+			<td>54.1%</td>
+			<td><a target="_blank" href="results_html/bos_7nn/index.html">Results webpage</a></td>
+		</tr>
+	</table>
+	<h4>Notes:</h4>
+	The best accuracy for KNN search with the <em>basic bag of SIFT</em> model was obtained for <strong>K=7</strong> at <strong>54.1%</strong>. I ran it for multiple K values and plotted them here.
+	<img width="100%;"src="img/accuracy_vs_knn_bos.png">
+</p>
+
+<h3>3. Bag of SIFT representation with Support Vector Machine classifier</h3>
+
+<p> I implemented the set of 15 1-vs-all linear SVM classifiers on top of the vl_svmtrain() routine. Initially, I kept the vocabulary and bag of SIFT parameters unchanged. With a lambda of 0.000005, I obtained an accuracy rate of 59.4%.</p>
+<p>I then meddled around the step size parameter for bag of SIFTs, the SVM lamdba parameter and the size of vocabulary which resulted in a new accuracy rate of 67.5%.
+</p>
+	
+<p> Here are the prediction accuracies for different combinations:
+	<table border="1">
+		<tr>
+			<th>Representation</th>
+			<th>Classifier</th>
+			<th>Accuracy</th>
+			<th>Results</th>
+			<th>Additional Comments</th>
+		</tr>
+		<tr>
+			<td>Bag of SIFT</td>
+			<td>SVM (lambda = 0.00005)</td>
+			<td>59.5 %</td>
+			<td><a target="_blank" href="results_html/bos_svm1/index.html">Results webpage</a></td>
+		</tr>
+		<tr>
+			<td>Bag of SIFT (step size = 5)</td>
+			<td>SVM (lambda = 0.0000025)</td>
+			<td>67.5%</td>
+			<td><a target="_blank" href="results_html/bos_svm2/index.html">Results webpage</a></td>
+			<td>Vocabular size: 500; Built with step size 5 SIFT feature extraction - sampling 400 features from each training image</td>
+		</tr>
+		<tr>
+			<td>Bag of SIFT (step size = 4)</td>
+			<td>SVM (lambda = 0.0000008)</td>
+			<td>68.3%</td>
+			<td><a target="_blank" href="results_html/bos_svm3/index.html">Results webpage</a></td>
+			<td>Vocabular size: 200; Built with step size 10 SIFT feature extraction - sampling 400 features from each training image</td>
+		</tr>
+	</table>
+</p>
+
+<h3>4. Extra Credit</h3>
+<h4>Chi-squared kernel SVM</h4>
+<p> I replaced the SVM method of vl_feat with a modified version of <a href="http://olivier.chapelle.cc/primal/">Olivier Chapelle's code</a>. Running the SVM classifier with a lambda of 0.001 and using cojugate gradients instead of the Newton method increased the accuracy rate to 69.3% - which is a very small improvement from the previous best we got (68.3%).</p>
+<p>
+	Next, I modified the SVM classifier to use chi-squared kernel rather than using RBF since CSF lets you handle discrete features and should work better in our bag of features model. Upon running the modified implementation, I get an accuracy rate of 73%.
+</p>	
+<p> Here are the prediction accuracies for different combinations:
+	<table border="1">
+		<tr>
+			<th>Representation</th>
+			<th>Classifier</th>
+			<th>Accuracy</th>
+			<th>Results</th>
+			<th>Additional Comments</th>
+		</tr>
+		<tr>
+			<td>Bag of SIFT</td>
+			<td>Modified SVM (lambda = 0.001)</td>
+			<td>69.3 %</td>
+			<td><a target="_blank" href="results_html/bos_msvm1/index.html">Results webpage</a></td>
+			<td>Vocabular size: 200; Built with step size 10 SIFT feature extraction - sampling 400 features from each training image</td>
+		</tr>
+		<tr>
+			<td>Bag of SIFT</td>
+			<td>Modified SVM (lambda = 0.0001)</td>
+			<td>73.0 %</td>
+			<td><a target="_blank" href="results_html/bos_msvm2/index.html">Results webpage</a></td>
+			<td>
+				Vocabular size: 200; Built with step size 10 SIFT feature extraction - sampling 400 features from each training image;
+				Chi-squared kernel of order = 4;
+			</td>
+		</tr>
+	</table>
+</p>
+<h4>Varying vocabulary sizes and performance comparisons</h4>
+<p>
+	In addition, I also generated vocabularies of multiple sizes and different sampling rates. Each of the vocabularies were generated by sampling 400 128-dimensional SIFT featuresfrom 1500 training images with a step size of 10 and applying k-means clustering on them. The k (vocabulary size) is varied from 10 through 1000 in increasing steps. The bag of SIFTs representations for both the training and test image were generated for each vocabulary using a step size of 10 for the vl_dsift() routine. Here is a comparison of the prediction accuracy against the vocabulary size when the SVM classifier parameters are fixed.
+	<img width="100%;"src="img/accuracy_vs_vs_bos_svm_3.png" />
+	As you can see, the lambda parameter here is quite bad. Even with bag of SIFTs and SVM and a large vocabulary size the maximum accuracy is really bad. So, I decided to tune the lambda parameter further and see the effect on this graph.
+	<img width="100%;"src="img/accuracy_vs_vs_bos_svm_2.png" />
+	Fine tuning improves the overall accuracy and also the makes the dependence relation between vocabulary size and accuracy rate much simpler.
+	<img width="100%;"src="img/accuracy_vs_vs_bos_svm_1.png" />
+	<img width="100%;"src="img/accuracy_vs_vs_bos_svm_0.png" />
+</p>
+
+<h4>Modified Locality constrained linear coding (LLC) representation</h4>
+<p>
+	I implemented slightly LLC encoded vector representation in get_bags_of_sifts2.m [apologies, the .m file name is not reflective of the code purpose here!]. With a lambda of 0.000002 and vocabulary of 500 visual words (stored in vocab_500.mat), I was able to get an accuracy rate of 65.3% which was slightly better than the bag of SIFTS result. The results are available <a href="results_html/llc_svm1/index.html">here</a><br>
+	<strong>NOTE:</strong> The modification was to compute alpha vector (defined in the <a href="http://www.robots.ox.ac.uk/~vgg/research/encoding_eval/">paper</a>) using Moore-Penrose pseudoinverse instead of the constrained optimization problem which speeded up the computation time. For verifying my code, I downloaded the code from original authors available <a href="http://www.ifp.illinois.edu/~jyang29/LLC.htm">here</a> and compared the encoding and performance. The performance for similar values of lambda was lower (<a href="results_html/llc_svm_author/index.html">58.5%</a> compared against 65% with my implementation) for the author's version although it was slightly faster to compute. So, I decided to stick to my implementation of LLC.
+</p>
+
+<h4>Bag of SIFTs with GIST vector representation</h4>
+<p>
+	I augmented the 500-dimensional bag of SIFTs representation with a 512-dimensional GIST vector representation and ran the SVM classifier on it. With a lambda of 0.00001 and vocabulary of 500 visual words (stored in vocab_500.mat), I was able to get an accuracy rate of 68.7% which was better than the bag of SIFTS result. The results are available <a href="results_html/bos_gist_svm1/index.html">here</a><br>
+	With slight change to the lambda parameter, the accuracy maxes out at 69.2%. Here's the <a href="results_html/bos_gist_svm2/index.html">result</a>.
+	Since my previous best result was with bag of SIFTs and chi-squared kernel SVM classifier, I ran the same pipeline albeit with the augmented bag of SIFTS. The new accuracy rate I got was <strong>77.2%</strong>.<br/>
+	Note that I used lambda = 0.0001 and kernel of size 4. I believe the accuracy rate can be further improved if the parameters for the visual vocabulary and patch size are properly fine-tuned for this pipeline. However, due to time constraints I'm unable to do so currently.
+	<iframe style="width:100%; height:100%;" src="results_html/bos_gist_msvm1/index.html"></iframe>
+	<strong>Parameters for best result</strong>
+	<table border="1">
+		<tr>
+			<th>Representation</th>
+			<th>Classifier</th>
+			<th>Accuracy</th>
+			<th>Parameters</th>
+		</tr>
+		<tr>
+			<td>Bag of SIFTs with GIST (get_bags_of_sifts_gist.m)</td>
+			<td>Support vector machine with chi-squared kernel (svm_classify.m)</td>
+			<td>77.2 %</td>
+			<td>
+				Vocabular size: 500, built with step size 10 SIFT feature extraction - sampling 400 features from each training image;<br/>
+				Bags of SIFT: step size = 10;<br/>
+				GIST parameters:
+					param.orientationsPerScale = [8 8 8 8];
+					param.numberBlocks = 4;
+					param.fc_prefilt = 4;
+					<br/>
+				SVM classifer: type_of_training = 3, lambda = 0.0001; hom.order = 4;(kernel size)<br/>
+			</td>
+		</tr>
+	</table>
+</p>
+
+<h3>5. Parameters for running the pipeline in under 10 minutes</h3>
+<table border="1">
+		<tr>
+			<th>Representation</th>
+			<th>Classifier</th>
+			<th>Accuracy</th>
+			<th>Running time</th>
+			<th>Parameters</th>
+		</tr>
+		<tr>
+			<td>Tiny images</td>
+			<td>K - nearest neighbor</td>
+			<td>22.4 %</td>
+			<td>~20 seconds</td>
+			<td>
+				Tiny images: make_zero_mean = 1, square_width = 16;<br/>
+				K - nearest neighbor: K =1;<br/>
+			</td>
+		</tr>
+		<tr>
+			<td>Bag of SIFTs</td>
+			<td>K - nearest neighbor</td>
+			<td>48.1 %</td>
+			<td>~3 minutes</td>
+			<td>
+				Vocabular size: 100, built with step size 10 SIFT feature extraction - sampling 400 features from each training image;<br/>
+				Bags of SIFT: step size = 10;<br/>
+				K - nearest neighbor: K=1;<br/>
+			</td>
+		</tr>
+		<tr>
+			<td>Bag of SIFTs</td>
+			<td>Support vector machine</td>
+			<td>57.5 %</td>
+			<td>~3.5 minutes</td>
+			<td>
+				Vocabular size: 100, built with step size 10 SIFT feature extraction - sampling 400 features from each training image;<br/>
+				Bags of SIFT: step size = 10;<br/>
+				SVM classifer: type_of_training = 1, lambda = 0.0001;<br/>
+			</td>
+		</tr>
+	</table>
+
+</body>
+</html>
